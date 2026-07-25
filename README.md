@@ -5,6 +5,8 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 ## Features
 
 - **TikTok/Tikfinity Integration**: Connect your TikTok live streams to BO3 Zombies gameplay
+- **Local HTTP Listener**: Lightweight Windows application that receives TikFinity webhooks
+- **File-Based IPC**: Reliable communication between listener and game without RCON
 - **Interactive Events**: Multiple viewer-triggerable events across categories:
   - **Weapons**: Random weapons, wall weapons, wonder weapons, ray gun spawns
   - **Player Effects**: Ammo refill, instant kill, double points, weapon changes
@@ -29,7 +31,8 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 6. Launch Black Ops 3
 7. Open Zombies
 8. Load the Kaotic Zombies mod
-9. Configure TikFinity webhooks (see below)
+9. Start KaoticListener.exe (included with the mod)
+10. Configure TikFinity webhooks (see below)
 
 ### Manual Installation
 
@@ -37,6 +40,7 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 2. Extract to your BO3 mods directory: `<BO3 Path>\mods\kaotic_zombies\`
 3. Add launch parameters (see below)
 4. Start Black Ops 3 Zombies
+5. Start KaoticListener.exe from the mod directory
 
 ### Adding Launch Parameters (Manual Install Only)
 
@@ -57,79 +61,70 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 
 ## TikFinity Setup
 
-### Manual Webhook Configuration
+### HTTP Listener
 
-You'll need to configure webhooks in TikFinity manually. Here's how:
+The mod includes `KaoticListener.exe`, a lightweight Windows application that:
+- Listens for HTTP requests on `http://127.0.0.1:8080/`
+- Queues events and communicates with the game via file-based IPC
+- Logs all activity to `%LOCALAPPDATA%\KaoticZombies\listener.log`
+- Runs silently in the background
+
+**Starting the Listener:**
+- Run `KaoticListener.exe` from the mod directory
+- The listener will start automatically and log: `[HH:mm:ss] Listener started`
+- Keep the listener running while playing
+
+### Webhook Configuration
+
+Configure TikFinity webhooks to point to the local HTTP listener:
 
 1. Open TikFinity
 2. Go to **Settings** → **Webhooks**
 3. Click **Add New Webhook** for each event you want to use
-4. Configure each webhook using the settings below
+4. Configure each webhook:
+   - **Webhook URL**: `http://127.0.0.1:8080/[event_name]`
+   - **Method**: POST
 
-### Webhook Configuration Format
-
-For each webhook, use these settings:
-- **Webhook URL**: Leave blank (Tikfinity handles this internally)
-- **Action**: Set Dvar
-- **Dvar Name**: `kaotic_event_name`
-- **Dvar Value**: Use the event name from the list below
-
-**Alternative Method - Console Command:**
-- **Action**: Execute Console Command
-- **Command**: `set kaotic_event_name [event_name]`
-
-### Available Events
-
-Configure these Dvar values for different events:
+### Available Endpoints
 
 **Weapons**
-| Event Name | Dvar Value | Description |
-|------------|------------|-------------|
-| Give Random Weapon | `give_random_weapon` | Spawns a random weapon for the player |
-| Give Wall Weapon | `give_wall_weapon` | Gives a weapon from the current map's wall buys |
-| Give Wonder Weapon | `give_wonder_weapon` | Spawns a powerful wonder weapon |
-| Spawn Ray Gun Pickup | `spawn_ray_gun` | Drops a Ray Gun pickup |
-| Spawn Pack-a-Punched Weapon | `give_pap_weapon` | Gives a Pack-a-Punched weapon |
+- `http://127.0.0.1:8080/give_random_weapon` - Spawns a random weapon
+- `http://127.0.0.1:8080/give_wall_weapon` - Gives a wall weapon
+- `http://127.0.0.1:8080/give_wonder_weapon` - Spawns a wonder weapon
+- `http://127.0.0.1:8080/spawn_ray_gun` - Drops a Ray Gun pickup
+- `http://127.0.0.1:8080/give_pap_weapon` - Gives a Pack-a-Punched weapon
 
 **Player Effects**
-| Event Name | Dvar Value | Description |
-|------------|------------|-------------|
-| Change Current Weapon | `change_weapon` | Swaps to a random weapon |
-| Refill Ammo | `refill_ammo` | Refills current weapon ammo |
-| Empty Magazine | `empty_magazine` | Empties current weapon magazine |
-| Max Ammo | `max_ammo` | Refills ammo for all weapons |
-| Instant Kill | `insta_kill` | One-hit kill zombies for 30 seconds |
-| Double Points | `double_points` | 2x score multiplier for 30 seconds |
+- `http://127.0.0.1:8080/change_weapon` - Swaps to a random weapon
+- `http://127.0.0.1:8080/refill_ammo` - Refills current weapon ammo
+- `http://127.0.0.1:8080/empty_magazine` - Empties current weapon magazine
+- `http://127.0.0.1:8080/max_ammo` - Refills ammo for all weapons
+- `http://127.0.0.1:8080/insta_kill` - One-hit kill zombies for 30 seconds
+- `http://127.0.0.1:8080/double_points` - 2x score multiplier for 30 seconds
 
 **Enemy Events**
-| Event Name | Dvar Value | Description |
-|------------|------------|-------------|
-| Spawn Mini Horde | `zombie_swarm` | Spawns additional zombies |
-| Spawn Heavy Zombie | `boss_round` | Spawns a boosted boss zombie |
-| Spawn Special Enemy | `special_enemy` | Spawns a special zombie type |
-| Speed Up Zombies | `speed_up_zombies` | Increases zombie movement speed |
-| Slow Down Zombies | `slow_down_zombies` | Decreases zombie movement speed |
+- `http://127.0.0.1:8080/zombie_swarm` - Spawns additional zombies
+- `http://127.0.0.1:8080/boss_round` - Spawns a boosted boss zombie
+- `http://127.0.0.1:8080/special_enemy` - Spawns a special zombie type
+- `http://127.0.0.1:8080/speed_up_zombies` - Increases zombie movement speed
+- `http://127.0.0.1:8080/slow_down_zombies` - Decreases zombie movement speed
 
 **Chaos Events**
-| Event Name | Dvar Value | Description |
-|------------|------------|-------------|
-| Jump Scare | `jump_scare` | Sudden camera shake and sound |
-| Screen Shake | `screen_shake` | Shakes the player's screen |
-| Random Teleport | `random_teleport` | Teleports player to random location |
-| Low Gravity | `low_gravity` | Reduces gravity for players |
-| Reverse Controls | `reverse_controls` | Inverts player controls temporarily |
-| Fire Sale | `fire_sale` | All mystery boxes are 10 points |
-| Carpenter | `carpenter` | Rebuilds all barriers |
-| Nuke | `nuke` | Kills all zombies on the map |
-| Random Perk | `random_perk` | Gives a random perk |
+- `http://127.0.0.1:8080/jump_scare` - Sudden camera shake and sound
+- `http://127.0.0.1:8080/screen_shake` - Shakes the player's screen
+- `http://127.0.0.1:8080/random_teleport` - Teleports player to random location
+- `http://127.0.0.1:8080/low_gravity` - Reduces gravity for players
+- `http://127.0.0.1:8080/reverse_controls` - Inverts player controls temporarily
+- `http://127.0.0.1:8080/fire_sale` - All mystery boxes are 10 points
+- `http://127.0.0.1:8080/carpenter` - Rebuilds all barriers
+- `http://127.0.0.1:8080/nuke` - Kills all zombies on the map
+- `http://127.0.0.1:8080/random_perk` - Gives a random perk
 
 **Fun Events**
-| Event Name | Dvar Value | Description |
-|------------|------------|-------------|
-| Confetti | `confetti` | Visual confetti effect |
-| Funny Sound | `funny_sound` | Plays a random sound effect |
-| Random Voice Line | `voice_line` | Plays a random character voice line |
-| Disco Mode | `disco_mode` | Activates disco lighting effects |
+- `http://127.0.0.1:8080/confetti` - Visual confetti effect
+- `http://127.0.0.1:8080/funny_sound` - Plays a random sound effect
+- `http://127.0.0.1:8080/voice_line` - Plays a random character voice line
+- `http://127.0.0.1:8080/disco_mode` - Activates disco lighting effects
 
 ### Gift-to-Event Mapping Guide
 
@@ -172,23 +167,13 @@ Assign gifts to events based on their value:
 - Nuke
 - Disco Mode
 
-### Customizing Gift Assignments
-
-To change which gifts trigger which events:
-
-1. Open TikFinity
-2. Go to **Settings** → **Gifts**
-3. Select a gift from the list
-4. Click **Edit** or **Assign Webhook**
-5. Select the webhook you want to assign
-6. Save the changes
-
 ## Usage
 
-1. Start Black Ops 3 Zombies with the mod loaded
-2. Start your TikTok live stream with Tikfinity enabled
-3. Viewers send gifts to trigger events
-4. Events trigger instantly in-game
+1. Start KaoticListener.exe
+2. Start Black Ops 3 Zombies with the mod loaded
+3. Start your TikTok live stream with Tikfinity enabled
+4. Viewers send gifts to trigger events
+5. Events trigger instantly in-game
 
 ### In-Game Verification
 
@@ -199,8 +184,35 @@ KAOTIC INTERACTIVE LOADED
 
 When an event is triggered:
 ```
-KAOTIC: EVENT ACTIVATED
+KAOTIC: [event_name]
 ```
+
+### Listener Logs
+
+Check the listener log at `%LOCALAPPDATA%\KaoticZombies\listener.log` for troubleshooting:
+```
+[12:41:15] Listener started
+[12:41:20] POST /jump_scare
+[12:41:20] Queued: jump_scare
+[12:41:20] Delivered to BO3
+```
+
+## Verification Checklist
+
+A successful setup should look like this:
+
+1. ✅ Install Kaotic Zombies mod
+2. ✅ Launch Black Ops 3 Zombies with the mod loaded
+3. ✅ Start KaoticListener.exe
+4. ✅ Verify listener logs show "Listener started"
+5. ✅ Open TikFinity
+6. ✅ Configure webhooks to point to `http://127.0.0.1:8080/[event]`
+7. ✅ Connect TikFinity to TikTok LIVE
+8. ✅ Click "Test" on an Action in TikFinity
+9. ✅ Verify listener receives the request in logs
+10. ✅ Verify the game executes the event immediately
+11. ✅ A viewer sends a gift
+12. ✅ The mapped event executes in-game
 
 ## Troubleshooting
 
@@ -213,10 +225,17 @@ KAOTIC: EVENT ACTIVATED
 
 ### Events Not Triggering
 
-- **Check Tikfinity profile**: Ensure the profile is imported and active
-- **Verify webhook assignments**: Ensure gifts are assigned to webhooks
+- **Check listener is running**: Verify KaoticListener.exe is running
+- **Check listener logs**: Look for "Listener started" in `%LOCALAPPDATA%\KaoticZombies\listener.log`
+- **Verify webhook URLs**: Ensure webhooks point to `http://127.0.0.1:8080/[event]`
+- **Test webhooks**: Use TikFinity's "Test" button to verify listener receives requests
 - **Check game console**: Look for error messages when events are triggered
-- **Restart Tikfinity**: Try restarting Tikfinity after importing the profile
+
+### Listener Issues
+
+- **Port already in use**: If port 8080 is already in use, the listener will fail to start
+- **Permission denied**: Run KaoticListener.exe as Administrator if needed
+- **Check logs**: Review `%LOCALAPPDATA%\KaoticZombies\listener.log` for error messages
 
 ### Installer Issues
 

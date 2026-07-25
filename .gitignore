@@ -47,6 +47,9 @@ manage_creators.bat
 update_checker.py
 start_bridge.bat
 
+# HTTP Listener source (creators use the compiled executable)
+KaoticListener/
+
 # GitHub Actions (development only)
 .github/
 
