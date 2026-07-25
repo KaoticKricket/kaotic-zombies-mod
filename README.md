@@ -22,8 +22,30 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 
 1. Download the mod files from [GitHub Releases](https://github.com/KaoticKricket/kaotic-zombies-mod/releases/latest)
 2. Extract to your BO3 mods directory: `<BO3 Path>\mods\kaotic_zombies\`
-3. Add to your game launch parameters: `+set fs_game mods/kaotic_zombies`
+3. Add launch parameters (see below)
 4. Start Black Ops 3 Zombies
+
+### Adding Launch Parameters
+
+**Option 1: Steam Launch Options**
+1. Open Steam Library
+2. Right-click "Call of Duty: Black Ops III"
+3. Select "Properties"
+4. Click "Set Launch Options"
+5. Add: `+set fs_game mods/kaotic_zombies`
+6. Click OK
+
+**Option 2: Desktop Shortcut**
+1. Right-click your Black Ops 3 desktop shortcut
+2. Select "Properties"
+3. Find the "Target" field
+4. Add to the end of the path: ` +set fs_game mods/kaotic_zombies`
+5. Click OK
+
+**Example Target:**
+```
+"C:\Program Files (x86)\Steam\steamapps\common\Call of Duty Black Ops III\blackops3.exe" +set fs_game mods/kaotic_zombies
+```
 
 ## Tikfinity Setup
 
