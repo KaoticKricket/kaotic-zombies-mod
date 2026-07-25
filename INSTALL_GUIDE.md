@@ -13,7 +13,6 @@
 ## System Requirements
 
 - **Black Ops 3** (PC version)
-- **Black Ops 3 Mod Tools** (to build the mod)
 - **TikTok/Tikfinity account** (for interactive features)
 - **BO3 Dedicated Server** (for multiplayer)
 
@@ -52,6 +51,7 @@ Enter the following configuration:
 
 The installer will:
 - Copy mod files to your BO3 directory
+- Copy the pre-compiled mod zone file
 - Create configuration files
 - Add Start Menu shortcuts
 - Add desktop shortcut for TikTok Bridge
@@ -64,17 +64,7 @@ The installer will:
 
 ## Post-Installation Setup
 
-### 1. Build the Mod
-
-You need to build the mod using BO3 Mod Tools:
-
-1. Open **BO3 Mod Tools Launcher**
-2. Select **Zone Builder**
-3. Open the zone file: `<BO3 Path>\mods\kaotic_zombies\zm_mod\zone_source\kaotic_zombies.zone`
-4. Click **Build**
-5. The compiled mod will be saved to your BO3 zone directory
-
-### 2. Configure BO3 Dedicated Server
+### 1. Configure BO3 Dedicated Server
 
 Edit your BO3 dedicated server configuration file:
 

@@ -1,4 +1,7 @@
-# Python
+# Python source files (creators use compiled exe)
+*.py
+*.pyc
+*.pyo
 __pycache__/
 *.py[cod]
 *$py.class
@@ -19,11 +22,14 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+tiktok_bridge.spec
+requirements.txt
 venv/
 ENV/
 env/
 
-# BO3 Mod Files
+# BO3 Mod source files (creators use pre-compiled zone)
+zm_mod/zone_source/
 zone/
 *.zone
 *.ff
@@ -31,6 +37,22 @@ zone/
 # Creator Network (contains sensitive data)
 creator_network.json
 bridge_config.py
+
+# Development files
+install.ps1
+installer.iss
+build_release.py
+manage_creators.py
+manage_creators.bat
+update_checker.py
+start_bridge.bat
+
+# GitHub Actions (development only)
+.github/
+
+# Developer documentation
+CONTRIBUTING.md
+CHANGELOG.md
 
 # IDE
 .vscode/
@@ -51,5 +73,7 @@ desktop.ini
 *.tmp
 *.temp
 
-# Installer output
+# Build outputs
 Output/
+build/
+dist/

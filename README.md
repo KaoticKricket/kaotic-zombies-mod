@@ -48,7 +48,6 @@ The mod includes an auto-update checker:
 ## Requirements
 
 - Black Ops 3 (PC)
-- Black Ops 3 Mod Tools (for building the mod)
 - TikTok/Tikfinity account with interactive capabilities
 - BO3 Dedicated Server (for multiplayer functionality)
 
@@ -63,6 +62,7 @@ The mod includes an auto-update checker:
 5. Complete the installation
 6. The installer will:
    - Copy all mod files to your BO3 directory
+   - Copy the pre-compiled mod zone file
    - Create Start Menu shortcuts
    - Generate configuration files
    - Set up the TikTok Bridge (standalone executable, no Python required)
@@ -87,24 +87,14 @@ If the installer fails, follow these steps:
 
 1. **Create mod directory structure**:
    ```
-   <BO3 Path>\mods\kaotic_zombies\zm_mod\scripts\zm\
-   <BO3 Path>\mods\kaotic_zombies\zm_mod\zone_source\
+   <BO3 Path>\mods\kaotic_zombies\
    ```
 
-2. **Copy mod files**:
-   - `kaotic_zombies.gsc` → `zm_mod\scripts\zm\`
-   - `kaotic_zombies.csc` → `zm_mod\scripts\zm\`
-   - `mod.csv` → `zm_mod\`
-   - `kaotic_zombies.zone` → `zm_mod\zone_source\`
-
-3. **Copy TikTok Bridge executable**:
-   - `TikTokBridge.exe` → `mods\kaotic_zombies\`
-   - `creator_network.json` → `mods\kaotic_zombies\`
-
-4. **Build the mod** using BO3 Mod Tools:
-   - Open BO3 Mod Tools Launcher
-   - Select "Zone Builder"
-   - Build `kaotic_zombies.zone`
+2. **Copy all files** from the distribution to `<BO3 Path>\mods\kaotic_zombies\`:
+   - `zm_mod\` folder (contains pre-compiled mod files)
+   - `TikTokBridge.exe`
+   - `creator_network.json`
+   - Documentation files
 
 ## Configuration
 
@@ -262,9 +252,9 @@ Provide creators with:
 
 ### Mod Not Loading
 
-- **Check mod is built**: Run BO3 Mod Tools and rebuild the zone file
 - **Verify server config**: Ensure `+set fs_game mods/kaotic_zombies` is in launch parameters
 - **Check console**: Look for "KAOTIC INTERACTIVE LOADED" message
+- **Verify files**: Ensure all mod files are in the correct directory
 
 ### Bridge Not Connecting
 
