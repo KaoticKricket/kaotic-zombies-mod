@@ -73,27 +73,22 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 
 ### Building the Mod
 
-**Note:** The BO3 Mod Tools interface may vary. Look for any tool that can compile/link zone files or build mods.
-
-**General Approach:**
+**Using the "Build" Option:**
 1. Open BO3 Mod Tools Launcher
-2. Look for any of these options: "Linker", "Builder", "Compiler", or "Zone Builder"
-3. Select your kaotic_zombies mod directory as the source
-4. Select the zone file: `zm_mod\zone_source\kaotic_zombies.zone`
-5. Set the output to your mod directory
-6. Run the build/compile/link process
-7. Wait for completion and check for .ff files in your mod directory
+2. Click "Build" from the main menu
+3. Click "New" to create a new build configuration
+4. Set the source directory to your kaotic_zombies mod directory
+5. Select the zone file: `zm_mod\zone_source\kaotic_zombies.zone`
+6. Set the output directory to your mod directory
+7. Select "Zombies" as the game type if prompted
+8. Click "Build" or "Compile" to start the process
+9. Wait for completion (may take several minutes)
+10. Check for .ff files in your mod directory
 
-**If you can't find build tools:**
-- The Mod Tools interface may have changed or you may have a different version
-- Try searching for "zone" or "build" in the Mod Tools interface
-- Check the Mod Tools documentation for your specific version
-- Consider using community modding tools or scripts
-
-**Alternative: Pre-built Mod**
-- If you cannot build the mod yourself, look for pre-built releases
-- Check the GitHub Releases page for compiled versions
-- Pre-built mods include the necessary .ff files and don't require building
+**Alternative Options:**
+- If "Build" doesn't work, try "export2bin" which may also compile zone files
+- The "asset editor" or "level editor" may have build options in their menus
+- Look for "compile" or "link" options within any of the editors
 
 **Verification:**
 - After building, check that `.ff` files exist in your mod directory
