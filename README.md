@@ -82,8 +82,10 @@ Configure TikFinity webhooks to point to the local HTTP listener:
 2. Go to **Settings** → **Webhooks**
 3. Click **Add New Webhook** for each event you want to use
 4. Configure each webhook:
-   - **Webhook URL**: `http://127.0.0.1:8080/[event_name]`
+   - **Webhook URL**: `http://127.0.0.1:8080/[event_name]` (replace `[event_name]` with the actual event, e.g., `http://127.0.0.1:8080/give_random_weapon`)
    - **Method**: POST
+
+**Important**: The event name must be part of the URL path, not a query parameter. The URL should look like `http://127.0.0.1:8080/give_random_weapon`, NOT `http://127.0.0.1:8080/` or `http://127.0.0.1:8080/?event=give_random_weapon`.
 
 ### Available Endpoints
 
@@ -236,6 +238,7 @@ A successful setup should look like this:
 - **Port already in use**: If port 8080 is already in use, the listener will fail to start
 - **Permission denied**: Run KaoticListener.exe as Administrator if needed
 - **Check logs**: Review `%LOCALAPPDATA%\KaoticZombies\listener.log` for error messages
+- **Invalid endpoint errors**: If you see "Invalid endpoint:" in the logs, your TikFinity webhook URL is incorrect. Ensure the URL includes the event name in the path (e.g., `http://127.0.0.1:8080/give_random_weapon`), not just `http://127.0.0.1:8080/`
 
 ### Installer Issues
 
