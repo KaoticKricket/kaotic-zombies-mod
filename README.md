@@ -29,6 +29,7 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 6. Launch Black Ops 3
 7. Open Zombies
 8. Load the Kaotic Zombies mod
+9. Configure TikFinity webhooks (see below)
 
 ### Manual Installation
 
@@ -56,66 +57,131 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 
 ## TikFinity Setup
 
-### Quick Setup (Plug-and-Play)
+### Manual Webhook Configuration
+
+Since the mod uses direct Dvar integration, you'll need to configure webhooks in TikFinity manually. Here's how:
 
 1. Open TikFinity
-2. Import the included profile: `TikFinity/kaotic_zombies_profile.tfc`
-3. Connect your TikTok LIVE
-4. Press Start
-5. That's it!
+2. Go to **Settings** → **Webhooks**
+3. Click **Add New Webhook** for each event you want to use
+4. Configure each webhook using the settings below
 
-No additional software. No servers. No bridge. No RCON. No networking configuration.
+### Webhook Configuration Format
+
+For each webhook, use these settings:
+- **Webhook URL**: Leave blank (Tikfinity handles this internally)
+- **Action**: Set Dvar
+- **Dvar Name**: `kaotic_event_name`
+- **Dvar Value**: Use the event name from the list below
+
+**Alternative Method - Console Command:**
+- **Action**: Execute Console Command
+- **Command**: `set kaotic_event_name [event_name]`
+
+### Available Events
+
+Configure these Dvar values for different events:
+
+**Weapons**
+| Event Name | Dvar Value | Description |
+|------------|------------|-------------|
+| Give Random Weapon | `give_random_weapon` | Spawns a random weapon for the player |
+| Give Wall Weapon | `give_wall_weapon` | Gives a weapon from the current map's wall buys |
+| Give Wonder Weapon | `give_wonder_weapon` | Spawns a powerful wonder weapon |
+| Spawn Ray Gun Pickup | `spawn_ray_gun` | Drops a Ray Gun pickup |
+| Spawn Pack-a-Punched Weapon | `give_pap_weapon` | Gives a Pack-a-Punched weapon |
+
+**Player Effects**
+| Event Name | Dvar Value | Description |
+|------------|------------|-------------|
+| Change Current Weapon | `change_weapon` | Swaps to a random weapon |
+| Refill Ammo | `refill_ammo` | Refills current weapon ammo |
+| Empty Magazine | `empty_magazine` | Empties current weapon magazine |
+| Max Ammo | `max_ammo` | Refills ammo for all weapons |
+| Instant Kill | `insta_kill` | One-hit kill zombies for 30 seconds |
+| Double Points | `double_points` | 2x score multiplier for 30 seconds |
+
+**Enemy Events**
+| Event Name | Dvar Value | Description |
+|------------|------------|-------------|
+| Spawn Mini Horde | `zombie_swarm` | Spawns additional zombies |
+| Spawn Heavy Zombie | `boss_round` | Spawns a boosted boss zombie |
+| Spawn Special Enemy | `special_enemy` | Spawns a special zombie type |
+| Speed Up Zombies | `speed_up_zombies` | Increases zombie movement speed |
+| Slow Down Zombies | `slow_down_zombies` | Decreases zombie movement speed |
+
+**Chaos Events**
+| Event Name | Dvar Value | Description |
+|------------|------------|-------------|
+| Jump Scare | `jump_scare` | Sudden camera shake and sound |
+| Screen Shake | `screen_shake` | Shakes the player's screen |
+| Random Teleport | `random_teleport` | Teleports player to random location |
+| Low Gravity | `low_gravity` | Reduces gravity for players |
+| Reverse Controls | `reverse_controls` | Inverts player controls temporarily |
+| Fire Sale | `fire_sale` | All mystery boxes are 10 points |
+| Carpenter | `carpenter` | Rebuilds all barriers |
+| Nuke | `nuke` | Kills all zombies on the map |
+| Random Perk | `random_perk` | Gives a random perk |
+
+**Fun Events**
+| Event Name | Dvar Value | Description |
+|------------|------------|-------------|
+| Confetti | `confetti` | Visual confetti effect |
+| Funny Sound | `funny_sound` | Plays a random sound effect |
+| Random Voice Line | `voice_line` | Plays a random character voice line |
+| Disco Mode | `disco_mode` | Activates disco lighting effects |
+
+### Gift-to-Event Mapping Guide
+
+Assign gifts to events based on their value:
+
+**Low-Value Gifts (Rose, TikTok, Finger Hearts)**
+- Confetti
+- Funny Sound
+- Random Voice Line
+- Refill Ammo
+- Empty Magazine
+
+**Mid-Value Gifts (Shares, Comments, Small Gifts)**
+- Give Random Weapon
+- Give Wall Weapon
+- Change Current Weapon
+- Screen Shake
+- Jump Scare
+- Slow Down Zombies
+- Speed Up Zombies
+
+**High-Value Gifts (Medium Gifts)**
+- Max Ammo
+- Instant Kill
+- Double Points
+- Random Teleport
+- Low Gravity
+- Spawn Mini Horde
+- Random Perk
+
+**Premium Gifts (Expensive Gifts)**
+- Give Wonder Weapon
+- Spawn Ray Gun Pickup
+- Spawn Pack-a-Punched Weapon
+- Spawn Heavy Zombie
+- Spawn Special Enemy
+- Reverse Controls
+- Fire Sale
+- Carpenter
+- Nuke
+- Disco Mode
 
 ### Customizing Gift Assignments
 
-The included profile comes with pre-configured gift-to-event assignments. To customize:
+To change which gifts trigger which events:
 
 1. Open TikFinity
-2. Open the imported Kaotic Zombies profile
+2. Go to **Settings** → **Gifts**
 3. Select a gift from the list
-4. Change the webhook assignment to a different event
-5. Save the profile
-
-### Available Webhook Events
-
-**Weapons**
-- Give Random Weapon - Spawns a random weapon for the player
-- Give Wall Weapon - Gives a weapon from the current map's wall buys
-- Give Wonder Weapon - Spawns a powerful wonder weapon
-- Spawn Ray Gun Pickup - Drops a Ray Gun pickup
-- Spawn Pack-a-Punched Weapon - Gives a Pack-a-Punched weapon
-
-**Player Effects**
-- Change Current Weapon - Swaps to a random weapon
-- Refill Ammo - Refills current weapon ammo
-- Empty Magazine - Empties current weapon magazine
-- Max Ammo - Refills ammo for all weapons
-- Instant Kill - One-hit kill zombies for 30 seconds
-- Double Points - 2x score multiplier for 30 seconds
-
-**Enemy Events**
-- Spawn Mini Horde - Spawns additional zombies
-- Spawn Heavy Zombie - Spawns a boosted boss zombie
-- Spawn Special Enemy - Spawns a special zombie type
-- Speed Up Zombies - Increases zombie movement speed
-- Slow Down Zombies - Decreases zombie movement speed
-
-**Chaos Events**
-- Jump Scare - Sudden camera shake and sound
-- Screen Shake - Shakes the player's screen
-- Random Teleport - Teleports player to random location
-- Low Gravity - Reduces gravity for players
-- Reverse Controls - Inverts player controls temporarily
-- Fire Sale - All mystery boxes are 10 points
-- Carpenter - Rebuilds all barriers
-- Nuke - Kills all zombies on the map
-- Random Perk - Gives a random perk
-
-**Fun Events**
-- Confetti - Visual confetti effect
-- Funny Sound - Plays a random sound effect
-- Random Voice Line - Plays a random character voice line
-- Disco Mode - Activates disco lighting effects
+4. Click **Edit** or **Assign Webhook**
+5. Select the webhook you want to assign
+6. Save the changes
 
 ## Usage
 
