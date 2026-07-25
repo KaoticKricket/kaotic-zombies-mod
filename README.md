@@ -58,7 +58,10 @@ The mod includes an auto-update checker:
 1. Download `KaoticZombiesMod-Setup.exe` from [GitHub Releases](https://github.com/your-username/kaotic-zombies-mod/releases/latest)
 2. Run the installer as Administrator
 3. Select your Black Ops 3 installation directory
-4. Configure RCON settings (password, port, webhook port)
+4. Configure TikTok Bridge settings:
+   - **RCON Password**: Choose a secure password (you'll use this in your BO3 server config)
+   - **RCON Port**: Enter `27015` (default BO3 RCON port, change only if your server uses a different port)
+   - **Webhook Port**: Enter `5000` (default, change only if this port is already in use)
 5. Complete the installation
 6. The installer will:
    - Copy all mod files to your BO3 directory

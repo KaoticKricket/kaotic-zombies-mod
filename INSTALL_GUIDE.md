@@ -41,11 +41,30 @@ The installer will automatically try to detect your Black Ops 3 installation:
 
 ### Step 4: Configure TikTok Bridge Settings
 
-Enter the following configuration:
+The installer will ask for three configuration settings. Here's what each one means and what to enter:
 
-- **RCON Password**: Choose a secure password for your BO3 server RCON
-- **RCON Port**: Default is `27015` (change if your server uses a different port)
-- **Webhook Port**: Default is `5000` (change if this port is already in use)
+#### RCON Password
+- **What it is**: A password that allows the TikTok Bridge to send commands to your BO3 server
+- **What to enter**: Choose any secure password you want (e.g., `MySecurePass123`)
+- **Important**: You'll need to use this same password in your BO3 server configuration file later
+- **Example**: `MySecretPassword456`
+
+#### RCON Port
+- **What it is**: The port number your BO3 server uses for RCON connections
+- **What to enter**: Usually `27015` (default BO3 RCON port)
+- **When to change**: Only if your server uses a different RCON port
+- **Example**: `27015`
+
+#### Webhook Port
+- **What it is**: The port the TikTok Bridge uses to receive events from TikTok/Tikfinity
+- **What to enter**: Usually `5000` (default)
+- **When to change**: Only if port 5000 is already used by another application on your computer
+- **Example**: `5000` or `5001` if 5000 is in use
+
+**Summary**: For most users, you can use:
+- RCON Password: Any secure password you choose
+- RCON Port: `27015`
+- Webhook Port: `5000`
 
 ### Step 5: Installation Progress
 
@@ -66,19 +85,32 @@ The installer will:
 
 ### 1. Configure BO3 Dedicated Server
 
-Edit your BO3 dedicated server configuration file:
+You need to configure your BO3 server to use the same RCON settings you chose during installation.
 
+**Find your BO3 server configuration file** (usually `server.cfg` or similar):
+- Look in your BO3 dedicated server directory
+- Common location: `<BO3 Path>\players2\` or your server config folder
+
+**Add these RCON settings** to your server config file:
 ```
-set rcon_password "your_password"  // Use the password you set during installation
-set rcon_port 27015                // Use the port you set during installation
+set rcon_password "your_password"     // Use the EXACT password you set during installation
+set rcon_port 27015                   // Use the EXACT port you set during installation
 set sv_rcon_banPenalty 0
 set sv_rcon_maxfailures 10
 set sv_rcon_minfailuretime 5
 ```
 
-Add to your server launch parameters:
+**Important**: The `rcon_password` and `rcon_port` must match exactly what you entered in the installer!
+
+**Add to your server launch parameters**:
 ```
 +set fs_game mods/kaotic_zombies
+```
+
+**Example**: If you set `MySecretPass123` as your RCON password during installation, your server config should have:
+```
+set rcon_password "MySecretPass123"
+set rcon_port 27015
 ```
 
 ### 3. Add Your TikTok Username
