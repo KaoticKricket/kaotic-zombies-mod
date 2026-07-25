@@ -17,46 +17,54 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 
 - Black Ops 3 (PC)
 - TikTok/Tikfinity account with interactive capabilities
-- BO3 Dedicated Server (for multiplayer functionality)
 
 ## Installation
 
-### Option 1: Windows Installer (Recommended)
-
-1. Download `KaoticZombiesMod-Setup.exe` from [GitHub Releases](https://github.com/KaoticKricket/kaotic-zombies-mod/releases/latest)
-2. Run the installer as Administrator
-3. Select your Black Ops 3 installation directory
-4. Complete the installation
-
-### Option 2: Manual Installation
-
 1. Download the mod files from [GitHub Releases](https://github.com/KaoticKricket/kaotic-zombies-mod/releases/latest)
 2. Extract to your BO3 mods directory: `<BO3 Path>\mods\kaotic_zombies\`
-3. Add to your server launch parameters: `+set fs_game mods/kaotic_zombies`
-4. Start your BO3 dedicated server
+3. Add to your game launch parameters: `+set fs_game mods/kaotic_zombies`
+4. Start Black Ops 3 Zombies
 
-## Configuration
+## Tikfinity Setup
 
-### TikTok/Tikfinity Setup
+### How to Configure Webhooks
 
-In your TikTok/Tikfinity settings, configure webhooks to call these in-game events:
+1. Open Tikfinity and go to **Settings** → **Webhooks**
+2. Click **Add New Webhook**
+3. Configure the webhook for your desired event (example: Finger Hearts)
 
-**Webhook URL**: Use Tikfinity's built-in webhook system to trigger events directly in-game
+### Example: Trigger zombie_swarm on Finger Hearts
 
-**Available Events**:
-- `zombie_swarm` - Spawns (5 + round_number) zombies near players
-- `boss_round` - Spawns a 5x health, 2x damage boss zombie
-- `powerup_drop` - Drops random power-up near each player
-- `max_ammo` - Refills ammo for all player weapons
-- `insta_kill` - One-hit kill zombies for 30 seconds
-- `double_points` - 2x score multiplier for 30 seconds
+**Webhook Configuration:**
+- **Event**: Finger Hearts
+- **Webhook URL**: Leave blank (Tikfinity handles this internally)
+- **Action**: Set Dvar
+- **Dvar Name**: `kaotic_event_name`
+- **Dvar Value**: `zombie_swarm`
+
+**Alternative Method - Console Command:**
+- **Event**: Finger Hearts
+- **Action**: Execute Console Command
+- **Command**: `set kaotic_event_name zombie_swarm`
+
+### Available Events
+
+Configure these Dvar values for different events:
+
+| Event Name | Dvar Value | Description |
+|------------|------------|-------------|
+| Finger Hearts | `zombie_swarm` | Spawns (5 + round_number) zombies near players |
+| Rose | `boss_round` | Spawns a 5x health, 2x damage boss zombie |
+| TikTok | `powerup_drop` | Drops random power-up near each player |
+| Gifts | `max_ammo` | Refills ammo for all player weapons |
+| Shares | `insta_kill` | One-hit kill zombies for 30 seconds |
+| Comments | `double_points` | 2x score multiplier for 30 seconds |
 
 ## Usage
 
-1. **Start your BO3 dedicated server** with the mod loaded
+1. **Start Black Ops 3 Zombies** with the mod loaded
 2. **Start your TikTok live stream** with Tikfinity enabled
-3. **Configure Tikfinity webhooks** to trigger the events listed above
-4. **Viewers can now trigger events** by sending gifts/interactions
+3. **Viewers can now trigger events** by sending the configured interactions
 
 ### In-Game Verification
 
@@ -75,15 +83,15 @@ KAOTIC: SPAWNED 12 ZOMBIES
 
 ### Mod Not Loading
 
-- **Verify server config**: Ensure `+set fs_game mods/kaotic_zombies` is in launch parameters
+- **Verify launch parameters**: Ensure `+set fs_game mods/kaotic_zombies` is in launch parameters
 - **Check console**: Look for "KAOTIC INTERACTIVE LOADED" message
 - **Verify files**: Ensure all mod files are in the correct directory
 
 ### Events Not Triggering
 
-- **Check Tikfinity configuration**: Ensure webhooks are properly configured
-- **Verify event names**: Use exact event names from the list above
-- **Check server console**: Look for error messages when events are triggered
+- **Check Tikfinity configuration**: Ensure Dvar name is exactly `kaotic_event_name`
+- **Verify Dvar value**: Use exact event names from the list above
+- **Check game console**: Look for error messages when events are triggered
 
 ## License
 
