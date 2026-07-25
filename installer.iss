@@ -56,10 +56,8 @@ Source: "zm_mod\scripts\zm\kaotic_zombies.csc"; DestDir: "{app}\zm_mod\scripts\z
 Source: "zm_mod\mod.csv"; DestDir: "{app}\zm_mod"; Flags: ignoreversion
 Source: "zm_mod\zone_source\kaotic_zombies.zone"; DestDir: "{app}\zm_mod\zone_source"; Flags: ignoreversion
 
-; Python bridge files
-Source: "tiktok_bridge.py"; DestDir: "{app}"; Flags: ignoreversion
-Source: "requirements.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "update_checker.py"; DestDir: "{app}"; Flags: ignoreversion
+; TikTok Bridge executable (standalone, no Python required)
+Source: "dist\TikTokBridge.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Configuration templates
 Source: "creator_network.json"; DestDir: "{app}"; Flags: ignoreversion
@@ -71,17 +69,13 @@ Source: "CHANGELOG.md"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Batch files
 Source: "start_bridge.bat"; DestDir: "{app}"; Flags: ignoreversion
-Source: "manage_creators.bat"; DestDir: "{app}"; Flags: ignoreversion
-Source: "manage_creators.py"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}\TikTok Bridge"; Filename: "pythonw.exe"; Parameters: """{app}\tiktok_bridge.py"""; WorkingDir: "{app}"; IconFilename: "pythonw.exe"; Comment: "Start TikTok Interactive Bridge"
-Name: "{autoprograms}\{#MyAppName}\Creator Manager"; Filename: "{app}\manage_creators.bat"; WorkingDir: "{app}"; Comment: "Manage authorized creators"
+Name: "{autoprograms}\{#MyAppName}\TikTok Bridge"; Filename: "{app}\TikTokBridge.exe"; WorkingDir: "{app}"; Comment: "Start TikTok Interactive Bridge"
 Name: "{autoprograms}\{#MyAppName}\Uninstall"; Filename: "{uninstallexe}"; Comment: "Remove Kaotic Zombies Mod"
-Name: "{autodesktop}\Kaotic TikTok Bridge"; Filename: "pythonw.exe"; Parameters: """{app}\tiktok_bridge.py"""; WorkingDir: "{app}"; IconFilename: "pythonw.exe"; Comment: "Start TikTok Interactive Bridge"
+Name: "{autodesktop}\Kaotic TikTok Bridge"; Filename: "{app}\TikTokBridge.exe"; WorkingDir: "{app}"; Comment: "Start TikTok Interactive Bridge"
 
 [Run]
-Filename: "python.exe"; Parameters: "-m pip install -r ""{app}\requirements.txt"" --quiet"; WorkingDir: "{app}"; StatusMsg: "Installing Python dependencies..."; Flags: runhidden waituntilterminated
 Filename: "{app}\README.md"; Description: "Open README file"; Flags: shellexec postinstall skipifsilent
 
 [UninstallDelete]
@@ -132,8 +126,6 @@ begin
 end;
 
 function NextButtonClick(CurPageID: Integer): Boolean;
-var
-  PythonPath: String;
 begin
   Result := True;
   
@@ -148,24 +140,6 @@ begin
     begin
       // Set the actual installation directory based on BO3 path
       WizardForm.DirEdit.Text := Bo3Page.Values[0] + '\mods\kaotic_zombies';
-    end;
-  end;
-  
-  if CurPageID = wpReady then
-  begin
-    // Check if Python is installed
-    PythonPath := ExpandConstant('{pf}\Python311\python.exe');
-    if not FileExists(PythonPath) then
-      PythonPath := ExpandConstant('{pf}\Python310\python.exe');
-    if not FileExists(PythonPath) then
-      PythonPath := ExpandConstant('{pf}\Python39\python.exe');
-    if not FileExists(PythonPath) then
-      PythonPath := ExpandConstant('{pf}\Python38\python.exe');
-      
-    if not FileExists(PythonPath) then
-    begin
-      if MsgBox('Python 3.8 or higher was not detected on your system. The installer will still proceed, but you will need to install Python manually from https://www.python.org/ before running the TikTok Bridge. Continue?', mbConfirmation, MB_YESNO) = IDNO then
-        Result := False;
     end;
   end;
 end;

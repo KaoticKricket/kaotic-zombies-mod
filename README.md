@@ -49,7 +49,6 @@ The mod includes an auto-update checker:
 
 - Black Ops 3 (PC)
 - Black Ops 3 Mod Tools (for building the mod)
-- Python 3.8 or higher
 - TikTok/Tikfinity account with interactive capabilities
 - BO3 Dedicated Server (for multiplayer functionality)
 
@@ -64,10 +63,9 @@ The mod includes an auto-update checker:
 5. Complete the installation
 6. The installer will:
    - Copy all mod files to your BO3 directory
-   - Install Python dependencies
    - Create Start Menu shortcuts
    - Generate configuration files
-   - Set up the TikTok Bridge
+   - Set up the TikTok Bridge (standalone executable, no Python required)
 
 ### PowerShell Installer (Alternative)
 
@@ -99,18 +97,11 @@ If the installer fails, follow these steps:
    - `mod.csv` → `zm_mod\`
    - `kaotic_zombies.zone` → `zm_mod\zone_source\`
 
-3. **Copy Python bridge files**:
-   - `tiktok_bridge.py` → `mods\kaotic_zombies\`
-   - `requirements.txt` → `mods\kaotic_zombies\`
+3. **Copy TikTok Bridge executable**:
+   - `TikTokBridge.exe` → `mods\kaotic_zombies\`
    - `creator_network.json` → `mods\kaotic_zombies\`
 
-4. **Install Python dependencies**:
-   ```bash
-   cd <BO3 Path>\mods\kaotic_zombies
-   pip install -r requirements.txt
-   ```
-
-5. **Build the mod** using BO3 Mod Tools:
+4. **Build the mod** using BO3 Mod Tools:
    - Open BO3 Mod Tools Launcher
    - Select "Zone Builder"
    - Build `kaotic_zombies.zone`
@@ -137,17 +128,15 @@ If the installer fails, follow these steps:
 
 ### TikTok Bridge Configuration
 
-1. **Edit `bridge_config.py`** in `mods\kaotic_zombies\`:
-   ```python
-   RCON_HOST = "127.0.0.1"  # Your BO3 server IP
-   RCON_PORT = 27015        # Your RCON port
-   RCON_PASSWORD = "your_password"  # Your RCON password
-   WEBHOOK_PORT = 5000      # Port for TikTok webhooks
-   ```
+The TikTok Bridge is now a standalone executable - no Python installation required!
 
+1. **Configuration is set during installation** via the installer wizard
 2. **Start the bridge**:
    - Double-click the desktop shortcut "Kaotic TikTok Bridge"
-   - Or run: `pythonw tiktok_bridge.py`
+   - Or use Start Menu → **Kaotic Zombies Interactive Mod** → **TikTok Bridge**
+   - Or run: `TikTokBridge.exe` from the installation directory
+
+The bridge reads configuration from the settings you provided during installation.
 
 ### TikTok/Tikfinity Setup
 
@@ -170,13 +159,18 @@ If the installer fails, follow these steps:
 
 ### Adding Creators
 
-**Using the management script**:
-```bash
-cd <BO3 Path>\mods\kaotic_zombies
-python manage_creators.py add @creator_username
+**Edit the creator network file directly**:
+1. Open `creator_network.json` in the installation directory
+2. Add your TikTok username to the creators array:
+```json
+{
+  "creators": ["@your_username"],
+  "description": "Authorized TikTok creator IDs for interactive events",
+  "version": "1.0"
+}
 ```
 
-**Or via HTTP API**:
+**Or via HTTP API** (while bridge is running):
 ```bash
 curl -X POST http://localhost:5000/creator/add \
   -H "Content-Type: application/json" \
@@ -185,19 +179,14 @@ curl -X POST http://localhost:5000/creator/add \
 
 ### Removing Creators
 
-```bash
-python manage_creators.py remove @creator_username
-```
+Edit `creator_network.json` and remove the username from the creators array.
 
 ### Listing Authorized Creators
 
+Check the `creator_network.json` file or use the HTTP API:
 ```bash
-python manage_creators.py list
+curl http://localhost:5000/creator/list
 ```
-
-### Editing Creator Network File
-
-You can also manually edit `creator_network.json`:
 ```json
 {
   "creators": ["@creator1", "@creator2", "@creator3"],
@@ -211,7 +200,7 @@ You can also manually edit `creator_network.json`:
 ### Starting the System
 
 1. **Start your BO3 dedicated server** with the mod loaded
-2. **Start the TikTok Bridge** (desktop shortcut or `pythonw tiktok_bridge.py`)
+2. **Start the TikTok Bridge** (desktop shortcut or `TikTokBridge.exe`)
 3. **Start your TikTok live stream** with Tikfinity enabled
 4. **Viewers can now trigger events** by sending gifts/interactions
 
@@ -279,29 +268,23 @@ Provide creators with:
 
 ### Bridge Not Connecting
 
-- **Verify Python dependencies**: Run `pip install -r requirements.txt`
 - **Check RCON settings**: Ensure password, port, and IP match server config
 - **Test RCON manually**: Use RCON tool to verify connection
-- **Check firewall**: Allow Python through Windows Firewall
+- **Check firewall**: Allow TikTokBridge.exe through Windows Firewall
+- **Verify executable**: Ensure TikTokBridge.exe is not blocked by antivirus
 
 ### Events Not Triggering
 
-- **Verify creator authorization**: Check `creator_network.json` or run `python manage_creators.py list`
+- **Verify creator authorization**: Check `creator_network.json`
 - **Check webhook format**: Ensure payload includes `creator_id`, `event_name`, and `event_id`
-- **Check bridge logs**: Look for error messages in bridge console
+- **Check bridge is running**: Look for TikTokBridge.exe in Task Manager
 - **Verify Dvar values**: In-game console: `GetDvarString("kaotic_event_name")`
 
 ### Unauthorized Creator Errors
 
-- **Add creator to network**: Use `python manage_creators.py add @username`
+- **Add creator to network**: Edit `creator_network.json` and add your username
 - **Check creator ID format**: Must match exactly (including @ symbol)
 - **Restart bridge**: After modifying creator network
-
-### Python Errors
-
-- **Check Python version**: Must be Python 3.8+
-- **Reinstall dependencies**: `pip install --force-reinstall -r requirements.txt`
-- **Run as administrator**: Some network operations require admin rights
 
 ## API Reference
 

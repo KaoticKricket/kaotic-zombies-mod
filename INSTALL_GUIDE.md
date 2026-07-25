@@ -13,7 +13,6 @@
 ## System Requirements
 
 - **Black Ops 3** (PC version)
-- **Python 3.8 or higher** (required for TikTok Bridge)
 - **Black Ops 3 Mod Tools** (to build the mod)
 - **TikTok/Tikfinity account** (for interactive features)
 - **BO3 Dedicated Server** (for multiplayer)
@@ -53,10 +52,10 @@ Enter the following configuration:
 
 The installer will:
 - Copy mod files to your BO3 directory
-- Install Python dependencies (Flask, Flask-CORS, requests)
 - Create configuration files
 - Add Start Menu shortcuts
 - Add desktop shortcut for TikTok Bridge
+- Set up the standalone TikTok Bridge executable (no Python required)
 
 ### Step 6: Complete Installation
 
@@ -96,9 +95,16 @@ Add to your server launch parameters:
 
 Add yourself to the creator network:
 
-1. Open **Start Menu** → **Kaotic Zombies Interactive Mod** → **Creator Manager**
-2. Or run: `<BO3 Path>\mods\kaotic_zombies\manage_creators.bat`
-3. Type: `add @your_tiktok_username`
+1. Open `creator_network.json` in the installation directory
+2. Add your TikTok username to the creators array:
+```json
+{
+  "creators": ["@your_tiktok_username"],
+  "description": "Authorized TikTok creator IDs for interactive events",
+  "version": "1.0"
+}
+```
+3. Save the file
 4. Your username is now authorized to trigger events
 
 ### 4. Configure TikTok/Tikfinity
@@ -126,6 +132,7 @@ In your TikTok/Tikfinity settings:
 2. **Start TikTok Bridge**:
    - Double-click the desktop shortcut "Kaotic TikTok Bridge"
    - Or use Start Menu → **Kaotic Zombies Interactive Mod** → **TikTok Bridge**
+   - Or run: `TikTokBridge.exe` from the installation directory
 3. **Start your TikTok live stream** with Tikfinity enabled
 4. **Viewers can now trigger events** by sending gifts/interactions
 
