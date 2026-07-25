@@ -17,6 +17,7 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 ## Requirements
 
 - Black Ops 3 (PC)
+- **BO3 Mod Tools** (free on Steam - required to build the mod)
 - TikTok/Tikfinity account with interactive capabilities
 
 ## Installation
@@ -38,9 +39,10 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 
 1. Download the mod files from [GitHub Releases](https://github.com/KaoticKricket/kaotic-zombies-mod/releases/latest)
 2. Extract to your BO3 mods directory: `<BO3 Path>\mods\kaotic_zombies\`
-3. Add launch parameters (see below)
-4. Start Black Ops 3 Zombies
-5. Start KaoticListener.exe from the mod directory
+3. **Build the mod using BO3 Mod Tools** (see "Building the Mod" below)
+4. Add launch parameters (see below)
+5. Start Black Ops 3 Zombies
+6. Start KaoticListener.exe from the mod directory
 
 ### Adding Launch Parameters (Manual Install Only)
 
@@ -58,6 +60,28 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 3. Find the "Target" field
 4. Add to the end of the path: ` +set fs_game mods/kaotic_zombies`
 5. Click OK
+
+## Building the Mod
+
+**IMPORTANT:** The mod must be built with BO3 Mod Tools before it will work in-game. The GSC scripts won't execute without being compiled.
+
+### Installing BO3 Mod Tools
+1. Open Steam
+2. Search for "Call of Duty: Black Ops III - Mod Tools"
+3. Install the free Mod Tools DLC
+4. Launch the Mod Tools Launcher
+
+### Building the Mod
+1. Open BO3 Mod Tools Launcher
+2. Click "Mod Builder" or use the Linker
+3. Select the kaotic_zombies mod directory
+4. Build the mod for Zombies (zm)
+5. The compiled .ff files will be generated in the mod directory
+
+### Troubleshooting
+- If the mod doesn't appear in the game menu, ensure it was built successfully
+- Check that the .ff files exist in the mod directory after building
+- Rebuild the mod after making any GSC script changes
 
 ## TikFinity Setup
 

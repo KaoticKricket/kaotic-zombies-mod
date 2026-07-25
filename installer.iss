@@ -1,11 +1,10 @@
 ; Kaotic Zombies Interactive Mod Installer
 ; Inno Setup Script for Windows
 
-#define MyAppName "Kaotic Zombies Interactive Mod"
+#define MyAppName "Kaotic Zombies"
 #define MyAppVersion "1.0.0"
 #define MyAppPublisher "Kaotic Modding"
 #define MyAppURL ""
-#define MyAppExeName "tiktok_bridge.py"
 
 [Setup]
 AppId={{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
@@ -23,7 +22,6 @@ OutputBaseFilename=KaoticZombiesMod-Setup
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
-UninstallDisplayIcon={app}\start_bridge.bat
 PrivilegesRequired=admin
 CreateAppDir=no
 UsePreviousAppDir=no
@@ -35,19 +33,14 @@ OutputDir=Output
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Messages]
-WelcomeLabel2=This will install the Kaotic Zombies Interactive Mod for Black Ops 3.%n%nThe mod adds TikTok/Tikfinity integration to your Zombies gameplay.
-FinishedLabel=The Kaotic Zombies Interactive Mod has been successfully installed.%n%n%nNext steps:%n1. Build the mod using BO3 Mod Tools%n2. Configure your RCON settings%n3. Start the TikTok Bridge%n4. Add your TikTok username to the creator network%n%nSee README.md for detailed instructions.
+WelcomeLabel2=This will install the Kaotic Zombies mod for Black Ops 3.%n%nThe mod adds TikTok/Tikfinity integration to your Zombies gameplay.
+FinishedLabel=The Kaotic Zombies mod has been successfully installed.%n%n%nIMPORTANT: You must build the mod with BO3 Mod Tools before it will work in-game.%n%nNext steps:%n1. Install BO3 Mod Tools (free on Steam)%n2. Build the mod using Mod Tools Launcher%n3. Launch Black Ops 3%n4. Open Zombies%n5. Load the Kaotic Zombies mod%n6. Start KaoticListener.exe%n7. Open TikFinity and configure webhooks to http://127.0.0.1:8080/%n8. Connect TikFinity to TikTok LIVE%n9. Start streaming!%n%nSee README.md for detailed building instructions.
 
 [CustomMessages]
 Bo3PathTitle=Black Ops 3 Installation
 Bo3PathDescription=Please select your Black Ops 3 installation directory.
 Bo3PathBrowse=Browse...
 Bo3PathInvalid=The specified directory does not contain a valid Black Ops 3 installation.
-ConfigTitle=Configuration
-ConfigDescription=Configure the TikTok Bridge settings.
-RconPassword=RCON Password:
-RconPort=RCON Port:
-WebhookPort=Webhook Port:
 
 [Files]
 ; Mod files
@@ -56,36 +49,27 @@ Source: "zm_mod\scripts\zm\kaotic_zombies.csc"; DestDir: "{app}\zm_mod\scripts\z
 Source: "zm_mod\mod.csv"; DestDir: "{app}\zm_mod"; Flags: ignoreversion
 Source: "zm_mod\zone_source\kaotic_zombies.zone"; DestDir: "{app}\zm_mod\zone_source"; Flags: ignoreversion
 
-; TikTok Bridge executable (standalone, no Python required)
-Source: "dist\TikTokBridge.exe"; DestDir: "{app}"; Flags: ignoreversion
-
-; Configuration templates
-Source: "creator_network.json"; DestDir: "{app}"; Flags: ignoreversion
+; HTTP Listener
+Source: "KaoticListener.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Documentation
 Source: "README.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "LICENSE"; DestDir: "{app}"; Flags: ignoreversion
-Source: "CHANGELOG.md"; DestDir: "{app}"; Flags: ignoreversion
-
-; Batch files
-Source: "start_bridge.bat"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}\TikTok Bridge"; Filename: "{app}\TikTokBridge.exe"; WorkingDir: "{app}"; Comment: "Start TikTok Interactive Bridge"
+Name: "{autoprograms}\{#MyAppName}\Kaotic Listener"; Filename: "{app}\KaoticListener.exe"; WorkingDir: "{app}"; Comment: "Start Kaotic HTTP Listener"
 Name: "{autoprograms}\{#MyAppName}\Uninstall"; Filename: "{uninstallexe}"; Comment: "Remove Kaotic Zombies Mod"
-Name: "{autodesktop}\Kaotic TikTok Bridge"; Filename: "{app}\TikTokBridge.exe"; WorkingDir: "{app}"; Comment: "Start TikTok Interactive Bridge"
+Name: "{autodesktop}\Kaotic Listener"; Filename: "{app}\KaoticListener.exe"; WorkingDir: "{app}"; Comment: "Start Kaotic HTTP Listener"
 
 [Run]
 Filename: "{app}\README.md"; Description: "Open README file"; Flags: shellexec postinstall skipifsilent
 
 [UninstallDelete]
-Type: filesandordirs; Name: "{app}\__pycache__"
 Type: filesandordirs; Name: "{app}\zm_mod"
 
 [Code]
 var
   Bo3Page: TInputDirWizardPage;
-  ConfigPage: TInputQueryWizardPage;
 
 function GetBo3Path(Param: String): String;
 var
@@ -153,57 +137,6 @@ begin
   
   Bo3Page.Add('');
   Bo3Page.Values[0] := GetBo3Path('');
-  
-  ConfigPage := CreateInputQueryPage(wpReady,
-    ExpandConstant('{cm:ConfigTitle}'), ExpandConstant('{cm:ConfigDescription}'),
-    'Configure the TikTok Bridge settings:');
-  
-  ConfigPage.Add(ExpandConstant('{cm:RconPassword}'), False);
-  ConfigPage.Add(ExpandConstant('{cm:RconPort}'), False);
-  ConfigPage.Add(ExpandConstant('{cm:WebhookPort}'), False);
-  
-  ConfigPage.Values[0] := '';
-  ConfigPage.Values[1] := '27015';
-  ConfigPage.Values[2] := '5000';
-end;
-
-function ShouldSkipPage(PageID: Integer): Boolean;
-begin
-  Result := False;
-  
-  // Skip config page if going backwards
-  if PageID = ConfigPage.ID then
-    Result := False;
-end;
-
-procedure CurStepChanged(CurStep: TSetupStep);
-var
-  ConfigFile: String;
-  ConfigContent: String;
-begin
-  if CurStep = ssPostInstall then
-  begin
-    // Create bridge configuration file
-    ConfigFile := ExpandConstant('{app}\bridge_config.py');
-    ConfigContent := '# TikTok Bridge Configuration' + #13#10 +
-                     '# Edit these values as needed' + #13#10 + #13#10 +
-                     'RCON_HOST = "127.0.0.1"' + #13#10 +
-                     'RCON_PORT = ' + ConfigPage.Values[1] + #13#10 +
-                     'RCON_PASSWORD = "' + ConfigPage.Values[0] + '"' + #13#10 +
-                     'WEBHOOK_PORT = ' + ConfigPage.Values[2] + #13#10;
-    
-    SaveStringToFile(ConfigFile, ConfigContent, False);
-    
-    // Create version file
-    SaveStringToFile(ExpandConstant('{app}\version.json'), 
-      '{"version": "' + ExpandConstant('{#MyAppVersion}') + '"}', False);
-    
-    // Update tiktok_bridge.py to use config
-    if FileExists(ExpandConstant('{app}\tiktok_bridge.py')) then
-    begin
-      // This is handled by the Python script itself
-    end;
-  end;
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
