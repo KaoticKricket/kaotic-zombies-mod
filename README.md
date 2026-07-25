@@ -66,7 +66,7 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 The mod includes `KaoticListener.exe`, a lightweight Windows application that:
 - Listens for HTTP requests on `http://127.0.0.1:8080/`
 - Queues events and communicates with the game via file-based IPC
-- Writes events to `events.json` in the mod directory
+- Writes events to `zm_mod/events.json` in the mod directory
 - Logs all activity to `%LOCALAPPDATA%\KaoticZombies\listener.log`
 - Shows a console window with real-time activity
 

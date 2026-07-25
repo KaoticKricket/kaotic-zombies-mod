@@ -4,14 +4,15 @@ function main()
 }
 
 // File-based IPC protocol:
-// HTTP listener writes event names to events.json in the mod directory
+// HTTP listener writes event names to events.json in the zm_mod directory
 // GSC polls this file every frame and executes events
 function kaotic_interactive_init()
 {
     wait(5);
     iprintlnbold("KAOTIC INTERACTIVE LOADED");
+    iprintlnbold("Event file: events.json");
     level.kaotic_last_event = "";
-    level.kaotic_event_file_path = "events.json";
+    level.kaotic_event_file_path = "zm_mod/events.json";
     level thread kaotic_event_receiver();
 }
 
