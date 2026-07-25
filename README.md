@@ -57,9 +57,19 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 
 ## TikFinity Setup
 
-### Manual Webhook Configuration
+### Option 1: Import Pre-Configured Profile (Recommended)
 
-Since the mod uses direct Dvar integration, you'll need to configure webhooks in TikFinity manually. Here's how:
+1. Open TikFinity
+2. Import the included profile: `TikFinity/kaotic_zombies_profile.tfc`
+3. Connect your TikTok LIVE
+4. Press Start
+5. That's it!
+
+The profile comes with pre-configured webhooks for all events. You can customize gift assignments as needed.
+
+### Option 2: Manual Webhook Configuration
+
+If you prefer to configure webhooks manually or want to customize the setup:
 
 1. Open TikFinity
 2. Go to **Settings** → **Webhooks**
