@@ -67,12 +67,14 @@ The mod includes `KaoticListener.exe`, a lightweight Windows application that:
 - Listens for HTTP requests on `http://127.0.0.1:8080/`
 - Queues events and communicates with the game via file-based IPC
 - Logs all activity to `%LOCALAPPDATA%\KaoticZombies\listener.log`
-- Runs silently in the background
+- Shows a console window with real-time activity
 
 **Starting the Listener:**
 - Run `KaoticListener.exe` from the mod directory
-- The listener will start automatically and log: `[HH:mm:ss] Listener started`
-- Keep the listener running while playing
+- A console window will open showing the listener status and activity
+- You should see: `[HH:mm:ss] Listener started` and `Listening on http://127.0.0.1:8080/`
+- Keep the console window open while playing
+- The console will show all incoming webhook requests and event delivery status
 
 ### Webhook Configuration
 
