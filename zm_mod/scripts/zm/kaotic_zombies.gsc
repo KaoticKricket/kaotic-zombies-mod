@@ -4,22 +4,15 @@ function main()
 }
 
 // File-based IPC protocol:
-// HTTP listener writes event names to %LOCALAPPDATA%\KaoticZombies\events.json
+// HTTP listener writes event names to events.json in the mod directory
 // GSC polls this file every frame and executes events
 function kaotic_interactive_init()
 {
     wait(5);
     iprintlnbold("KAOTIC INTERACTIVE LOADED");
     level.kaotic_last_event = "";
-    level.kaotic_event_file_path = GetLocalAppDataPath() + "KaoticZombies\\events.json";
+    level.kaotic_event_file_path = "events.json";
     level thread kaotic_event_receiver();
-}
-
-function GetLocalAppDataPath()
-{
-    // GSC doesn't have direct access to environment variables
-    // Use a fixed path that works for most Windows installations
-    return "C:\\Users\\" + GetDvarString("username", "Player") + "\\AppData\\Local\\";
 }
 
 function kaotic_event_receiver()
