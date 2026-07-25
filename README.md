@@ -21,6 +21,15 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 
 ## Installation
 
+### Option 1: Windows Installer (Recommended)
+
+1. Download `KaoticZombiesMod-Setup.exe` from [GitHub Releases](https://github.com/KaoticKricket/kaotic-zombies-mod/releases/latest)
+2. Run the installer as Administrator
+3. Select your Black Ops 3 installation directory
+4. Complete the installation
+
+### Option 2: Manual Installation
+
 1. Download the mod files from [GitHub Releases](https://github.com/KaoticKricket/kaotic-zombies-mod/releases/latest)
 2. Extract to your BO3 mods directory: `<BO3 Path>\mods\kaotic_zombies\`
 3. Add to your server launch parameters: `+set fs_game mods/kaotic_zombies`
