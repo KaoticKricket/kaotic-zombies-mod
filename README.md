@@ -76,14 +76,17 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 **Using the "Build" Option:**
 1. Open BO3 Mod Tools Launcher
 2. Click "Build" from the main menu
-3. Click "New" to create a new build configuration
-4. Set the source directory to your kaotic_zombies mod directory
-5. Select the zone file: `zm_mod\zone_source\kaotic_zombies.zone`
-6. Set the output directory to your mod directory
-7. Select "Zombies" as the game type if prompted
-8. Click "Build" or "Compile" to start the process
-9. Wait for completion (may take several minutes)
-10. Check for .ff files in your mod directory
+3. If you see "no tasks" error, you need to create a build task first
+4. Click "New" or "Add Task" to create a new build configuration
+5. Set the source directory to your kaotic_zombies mod directory
+6. Select the zone file: `zm_mod\zone_source\kaotic_zombies.zone`
+7. Set the output directory to your mod directory
+8. Select "Zombies" as the game type if prompted
+9. Save the build task/configuration
+10. Select the newly created task
+11. Click "Build" or "Compile" to start the process
+12. Wait for completion (may take several minutes)
+13. Check for .ff files in your mod directory
 
 **Alternative Options:**
 - If "Build" doesn't work, try "export2bin" which may also compile zone files
