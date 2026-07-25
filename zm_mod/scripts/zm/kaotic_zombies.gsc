@@ -18,12 +18,14 @@ function kaotic_interactive_init()
 
 function kaotic_event_receiver()
 {
+    iprintlnbold("KAOTIC: Event receiver started");
     for(;;)
     {
         event_name = kaotic_read_event_file();
         if(event_name != "" && event_name != level.kaotic_last_event)
         {
             level.kaotic_last_event = event_name;
+            iprintlnbold("KAOTIC: Read event: " + event_name);
             level thread kaotic_dispatch_event(event_name);
         }
         wait(0.05); // Poll every 50ms
@@ -44,6 +46,7 @@ function kaotic_read_event_file()
     file_handle = fopen(file_path, "r");
     if(!isdefined(file_handle))
     {
+        iprintlnbold("KAOTIC: Failed to open file");
         return "";
     }
     
@@ -64,7 +67,7 @@ function kaotic_read_event_file()
 
 function kaotic_dispatch_event(event_name)
 {
-    iprintlnbold("KAOTIC: " + event_name);
+    iprintlnbold("KAOTIC: Dispatching " + event_name);
     
     // Weapons
     if(event_name == "give_random_weapon")
@@ -416,16 +419,21 @@ function kaotic_timer_function(duration, powerup_name)
 // Weapons
 function kaotic_give_random_weapon()
 {
-    iprintlnbold("KAOTIC: RANDOM WEAPON");
+    iprintlnbold("KAOTIC: RANDOM WEAPON STARTED");
     
     players = GetPlayers();
+    iprintlnbold("KAOTIC: Player count: " + players.size);
+    
     foreach(player in players)
     {
         weapons = array("ar_standard", "smg_standard", "shotgun_standard", "lmg_standard", "pistol_standard");
         random_weapon = weapons[RandomInt(weapons.size)];
+        iprintlnbold("KAOTIC: Giving weapon: " + random_weapon);
         player GiveWeapon(random_weapon);
         player SwitchToWeapon(random_weapon);
     }
+    
+    iprintlnbold("KAOTIC: RANDOM WEAPON COMPLETED");
 }
 
 function kaotic_give_wall_weapon()
