@@ -73,28 +73,28 @@ A TikTok/Tikfinity integration mod for Black Ops 3 Zombies that allows viewers t
 
 ### Building the Mod
 
-**Using the Mod Builder (Recommended):**
-1. Open BO3 Mod Tools Launcher
-2. Click "Mod Builder" from the main menu
-3. Click "Add Mod" and browse to your kaotic_zombies mod directory
-4. Select "Zombies" as the game type
-5. Click "Build" to compile the mod
-6. Wait for the build to complete (may take several minutes)
-7. The compiled .ff files will be generated in the mod directory
-
-**Using the Linker (Alternative):**
+**Using the Linker (Most Common Method):**
 1. Open BO3 Mod Tools Launcher
 2. Click "Linker" from the main menu
-3. Set "Mod" to your kaotic_zombies mod directory
-4. Set "Zone File" to `zm_mod\zone_source\kaotic_zombies.zone`
-5. Set "Output" to the mod directory
-6. Click "Link" to compile
-7. The compiled .ff file will be generated
+3. In the "Mod" field, browse to or type the path to your kaotic_zombies mod directory (e.g., `C:\Program Files (x86)\Steam\steamapps\common\Call of Duty Black Ops III\mods\kaotic_zombies`)
+4. In the "Zone File" field, browse to `zm_mod\zone_source\kaotic_zombies.zone` within your mod directory
+5. In the "Output" field, set it to your mod directory
+6. Click "Link" or "Build" to compile
+7. Wait for the build to complete (may take several minutes)
+8. The compiled .ff file will be generated in the mod directory
+
+**Alternative Method - Using Radiant:**
+1. Open BO3 Mod Tools Launcher
+2. Click "Radiant" 
+3. Open your mod's zone file from the File menu
+4. Use the build/link function from the menu
+5. Compile the mod for Zombies
 
 **Verification:**
 - After building, check that `.ff` files exist in your mod directory
-- Common files: `zm_common.ff`, `zm_zod.ff`, or similar depending on the map
+- Look for files like `kaotic_zombies.ff` or similar in the mod directory
 - If build fails, check the Mod Tools console for error messages
+- Common errors: missing dependencies, incorrect zone file paths
 
 ### Troubleshooting
 - If the mod doesn't appear in the game menu, ensure it was built successfully
