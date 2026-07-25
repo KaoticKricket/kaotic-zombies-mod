@@ -52,5 +52,4 @@ desktop.ini
 *.temp
 
 # Installer output
-*.exe
 Output/
