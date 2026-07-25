@@ -1,0 +1,5 @@
+>modtools
+>scriptable
+
+scriptparsetree,scripts/zm/kaotic_zombies.gsc
+scriptparsetree,scripts/zm/kaotic_zombies.csc
