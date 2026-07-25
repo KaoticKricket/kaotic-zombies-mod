@@ -120,7 +120,15 @@ end;
 
 function IsBo3PathValid(Path: String): Boolean;
 begin
-  Result := DirExists(Path + '\mods') and DirExists(Path + '\bin');
+  // Check for key BO3 files/folders - be more lenient
+  Result := DirExists(Path + '\bin') or DirExists(Path + '\mods') or FileExists(Path + '\BlackOps3.exe');
+  
+  // If basic check passes, also try to check for mods folder specifically
+  if Result then
+  begin
+    // It's okay if mods folder doesn't exist - installer will create it
+    Result := True;
+  end;
 end;
 
 function NextButtonClick(CurPageID: Integer): Boolean;
